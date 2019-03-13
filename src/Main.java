@@ -13,8 +13,13 @@ public class Main {
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		PTBTokenizer ptbt = new PTBTokenizer(new FileReader("smarthome-userstories-3k.csv"), new CoreLabelTokenFactory(), "");
 		for (CoreLabel label; ptbt.hasNext();) {
+			// Tokenize each word
 			label = (CoreLabel) ptbt.next();
-			System.out.println(label);
+			String word = label.word();
+			
+			// Convert all words to lowercase
+			String lowerCase = word.toLowerCase();
+			System.out.println(lowerCase);
 		}
 	}
 }
