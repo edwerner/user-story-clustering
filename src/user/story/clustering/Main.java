@@ -30,6 +30,8 @@ public class Main {
 		// tag each word
 		MaxentTagger maxentTagger = new MaxentTagger("english-left3words-distsim.tagger");
 
+		System.out.println("Calculating clusters, please wait for output to write to file (output.txt)");
+		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		PTBTokenizer ptbt = new PTBTokenizer(new FileReader("smarthome-userstories-3k.csv"),
 				new CoreLabelTokenFactory(), "");
@@ -57,7 +59,6 @@ public class Main {
 				// add tag to word list
 				if (pos == true) {
 					wordList.add(word);
-					System.out.println("POS TAG: " + tag);
 				}
 			}
 			
@@ -65,8 +66,9 @@ public class Main {
 				for (String w: wordList) {
 					TFIDFCalculator calculator = new TFIDFCalculator();
 			        double tfidf = calculator.tfIdf(wordList, w);
-			        System.out.println("TF-IDF: " + tfidf);
+			        KMeans.SAMPLES.add(tfidf);
 				}
+				new KMeans();
 			}
 		}
 	}
