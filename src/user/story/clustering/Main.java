@@ -44,14 +44,26 @@ public class Main {
 				wordList.add(word);
 				allwordsList.add(wordList);
 				String lemma = label.lemma();
+				
+				// regex parts of speech tagging
 				String tag = maxentTagger.tagString(word);
+
+				// regex parts of speech tagging for
+				// nouns, verbs, adjectives, and adverbs
+				boolean pos = tag.matches(".*(_NN).*|.*(_NNS).*|.*(_VB).*|.*(_JJ).*|.*(_RB).*");
+				
+				// add tag to word list
+				if (pos == true) {
+					wordList.add(tag);
+					System.out.println("TAG ADDED: " + tag);
+				}
 			}
 			
 			if (ptbt.hasNext() == false) {
 				for (String w: wordList) {
 					TFIDFCalculator calculator = new TFIDFCalculator();
-			        double tfidf = calculator.tfIdf(wordList, w);
-			        System.out.println("TF-IDF (ipsum) = " + tfidf);
+//			        double tfidf = calculator.tfIdf(wordList, w);
+//			        System.out.println("TF-IDF: " + tfidf);
 				}
 			}
 		}
