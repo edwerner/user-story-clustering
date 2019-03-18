@@ -43,6 +43,8 @@ public class Main {
 				// add non-stopwords to word list
 				wordList.add(word);
 				allwordsList.add(wordList);
+				
+				// lemma always null
 				String lemma = label.lemma();
 				
 				// regex parts of speech tagging
@@ -54,16 +56,16 @@ public class Main {
 				
 				// add tag to word list
 				if (pos == true) {
-					wordList.add(tag);
-					System.out.println("TAG ADDED: " + tag);
+					wordList.add(word);
+					System.out.println("POS TAG: " + tag);
 				}
 			}
 			
 			if (ptbt.hasNext() == false) {
 				for (String w: wordList) {
 					TFIDFCalculator calculator = new TFIDFCalculator();
-//			        double tfidf = calculator.tfIdf(wordList, w);
-//			        System.out.println("TF-IDF: " + tfidf);
+			        double tfidf = calculator.tfIdf(wordList, w);
+			        System.out.println("TF-IDF: " + tfidf);
 				}
 			}
 		}
