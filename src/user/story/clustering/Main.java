@@ -1,14 +1,10 @@
 package user.story.clustering;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.stanford.nlp.ling.CoreAnnotations;
-import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.process.CoreLabelTokenFactory;
 import edu.stanford.nlp.process.PTBTokenizer;
@@ -20,6 +16,7 @@ public class Main {
 
 		List<String> wordList = new ArrayList<String>();
 		List<String> stopwordList = new ArrayList<String>();
+		List<List<String>> allwordsList = new ArrayList<List<String>>();
 	
 		// read in stopwords from file
 		BufferedReader reader = new BufferedReader(new FileReader("default-english-stopwords-list.txt"));
@@ -30,7 +27,6 @@ public class Main {
 		}
 		reader.close();
 		
-
 		// tag each word
 		MaxentTagger maxentTagger = new MaxentTagger("english-left3words-distsim.tagger");
 
@@ -46,13 +42,18 @@ public class Main {
 			if (!stopwordList.contains(word)) {
 				// add non-stopwords to word list
 				wordList.add(word);
+				allwordsList.add(wordList);
 				String lemma = label.lemma();
 				String tag = maxentTagger.tagString(word);
 			}
-		}
-		
-		for (String word: wordList) {
-			System.out.println(word);
+			
+			if (ptbt.hasNext() == false) {
+				for (String w: wordList) {
+					TFIDFCalculator calculator = new TFIDFCalculator();
+			        double tfidf = calculator.tfIdf(wordList, w);
+			        System.out.println("TF-IDF (ipsum) = " + tfidf);
+				}
+			}
 		}
 	}
 }
